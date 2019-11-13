@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import Location from './Location';
 import WeatherData from './WeatherData';
-import {SUN, WINDY} from './../../constants/weathers';
+import transformWeather from './../../services/transformWeather';
+import {SUN} from './../../constants/weathers';
 import './style.css';
+
+const location = "Medellín, col";
+const api_key = "1823224cb3d317ae600c62b11680423a";
+const api_weather =  `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${api_key}`
 
 const data1 = {
     temperature: 20,
@@ -11,31 +16,33 @@ const data1 = {
     wind: '10 m/s',
 };
 
-const data2 = {
-    temperature: 30,
-    weatherState: WINDY,
-    humidity: 18,
-    wind: '22 m/s',
-};
-
 class WeatherLocation extends Component {
 
     constructor() {
+        console.log('constructor');
         super();
         this.state = {
-            city: 'Buenos Aires',
+            city: 'Medellín',
             data: data1
         };
-    }
+    };
 
     handleUpdateClick = () => {
-        this.setState({
-            data: data2
+        fetch(api_weather).then(data => {
+          return data.json();
+        }).then( weather_data => {
+            const data = transformWeather(weather_data);
+            this.setState({ data });
         });
-        console.log('Actualizando...');
     }
 
+    
+    componentWillMount() {
+        this.handleUpdateClick();
+    }
+    
     render = () => {
+        console.log('render');
         const { city, data } = this.state;
 
         return(
