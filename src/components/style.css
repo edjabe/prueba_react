@@ -1,5 +1,5 @@
 .locationList {
-    background: red;
+    background: rgb(255, 255, 255);
 }
 
 @media (max-width:48em) {
@@ -9,4 +9,11 @@
         overflow: auto;
         margin-bottom: 20px;
     }
+}
+
+.forecast-title {
+    color: white;
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
